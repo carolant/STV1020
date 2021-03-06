@@ -1,0 +1,231 @@
+##########################
+##                      ##
+##  Script R-seminar 1  ##
+##     STV1020 V21      ##
+##                      ##
+##########################
+
+
+####   Introduksjon til R   ####
+
+# Etter # skriver jeg kommentarer. 
+# Alt som ikke kommer etter en # vil ikke bli ansett som kode
+# Sett musepekeren på likningen under og trykk crl+enter
+# (cmd+return på mac) for å kjøre den.
+
+100/2
+
+# Deretter skal vi opprette et objekt.
+# Her lager jeg et objekt som heter "Fem" og som inneholder tallet 5
+Fem <- 5
+
+# Når vi lager et objekt så skjer det ikke noe umiddelbart
+# i console. Prøv å skriv inn navnet på objektet ditt,
+# kjør koden og se hva som skjer i console:
+
+Fem
+
+# Nå som vi har opprettet et objekt kan vi prøve å bruke det til noe. 
+# Først kan vi prøve å summere objektet med et tall.
+3 + Fem
+
+# Som dere ser kan jeg nå skrive 3 + Fem og få ut resultatet 8. 
+# Dette var et veldig enkelt eksempel, men objekter kan
+# inneholde mye informasjon! 
+
+# Nå kan vi prøve å lagre flere tall. Det er flere måter å gjøre dette på. 
+# Vi kan f.eks. skrive 1:10 for å få alle heltallene mellom 1 og 10.
+
+Heltall <- 1:10
+
+# For flere gjenstander i et objekt må du skrive c foran parantesen. 
+# For eksempel slik: 
+
+Tilfeldige_tall <- c(1, 4, 56, 8, 4, 2, 4)
+
+# Husk at nesten all kode må lukkes med ()
+# Dersom man ønsker å opprette en vektor med tekst, i stedet for tall, 
+# må man skrive det slik "tekst".
+
+farger <- c("gul", "lilla", "rosa", "svart")
+
+# Det er noen regler for objektnavn:
+# - Navn bør bare inneholde små bokstaver, tall og _
+# - Ikke bruk et tall som første tegn
+# - Ikke bruk æ/ø/å
+# - Ikke bruk mellomrom
+# - Ikke bruk funksjonsnavn 
+
+
+####   Bli kjent oppgave   #### 
+
+# Nå skal vi prøve å opprette ulike objekter basert på deres navn, kjonn, alder, studie og hjemby.
+
+navn <- c()
+
+kjonn <- c()
+
+alder <- c()
+
+studie <- c()
+
+hjemby <- c()
+
+
+####   Funksjoner   ####
+
+# Funksjoner er en ferdig kodesnutt som er laget for å utføre bestemte oppgaver. 
+# La oss se om vi kan finne gjennomsnittet til en alder. 
+
+mean(__)
+
+# I environment kan vi se hvor mange observasjoner det er 
+# i hver vektor, men vi kan også bruke funksjonen length().
+# Sjekk lengden på en av vektorene:
+
+length(__)
+
+####  Klasser aka målenivå ####
+
+# Vi har så langt fem variabler med to ulike målevnivå.
+# Kategoriske variabler kalles for faktor i R. 
+# Numerisk -- har deltall. 
+# Integer -- har ikke deltall -- kun hele tall. 
+
+# Hvilken klasse et objekt har avgjør hva vi kan gjøre 
+# med det. For å sjekke hvilken klasse et objekt har så
+# kan vi bruke ulike funksjoner:
+
+# Sett inn objektnavnet ditt og kjør koden: 
+class(__)
+
+# Hva fikk du i konsoll? Hva betyr svaret? 
+
+# Vi kan kreve at et objekt skal ha en viss klasse. Det 
+# gjør vi med funksjonen as."klassenavn"(). Prøv å lagre
+# den numeriske vektoren fra tidligere som en character:
+
+__ <- as.character()
+
+
+####   Indeksering   #### 
+
+# Noen ganger vil vi være interessert i å hente ut 
+# informasjon om enkeltobservasjoner i dataene våre. 
+# Da kan vi bruke indeksering. 
+
+# Sett inn navnet på et av objektene vi lagde
+# tidligere og kjør koden: 
+
+__[5] 
+
+# Hva skjedde? 
+
+# Vektorer inneholder strukturert informasjon. Dette
+# gjør det mulig å hente ut informasjon. Sett inn navnet
+# på vektorene her og kjør koden:
+
+__[3:5]
+__[c(1,2,5)]
+
+# Vi kan også bruke indeksering inne i funksjoner:
+# Erstatt første __ med funksjnen for å regne gjennomsnitt
+# og erstatt den andre __ med objektnavnet ditt:
+__(__[c(3,5,6)])
+
+# Vi kan også bruke indeksering til å subsette
+Ny_Vektor <- __[c(3,5,6)]
+
+
+####   Datasett    ####
+
+# Nå skal vi bruke de fem objektene vi laget ovenfor til å opprette 
+# et datasett. For å slå disse vektorene sammen til et datasett så
+# kan vi bruke funksjonen data.frame. 
+# Gi datasettet et navn, inkluder de fem objektene (navn, alder, hjemby etc.) og kjør koden.  
+
+__ <- data.frame(__)
+
+
+# Når vi indekserte tidligere så skrev vi kun navnet på
+# objektet samt et tall. Nå som vi har et datasett må vi
+# gi R informasjon om hvilken rad (observajon) og 
+# kolonne (variabel) vi vil hente ut:
+
+# Med klammeparanteser kan vi velge rad og kolonne. 
+# Rad kommer først, og så kolonnen. 
+
+__[2,1]
+
+# Hva skjer når vi lar plassen for rad eller kolonne være
+# tom? Sett inn navnet på datasettet ditt og kjør koden:
+  
+__[3, ]
+
+# En mer vanlig måte å hente ut kolonner på er med '$'.
+# Her skrive vi først navnet på datasettet og så navnet
+# på variabelen. For eksempel slik:
+dta$navn 
+
+# Denne formen er mye brukt i funksjoner. 
+# For eksempel kan vi finne gjennomsnittet til variabelen alder:
+mean(dta$alder, na.rm = TRUE)
+
+#Eller medianen til variabelen hjemby:
+median(dta$hjemby, na.rm = TRUE)
+
+# Funksjonen summary() gir oss all informasjon om variabelen studie: 
+summary(dta$navn)
+
+
+####   Pakker   #### 
+
+# Til nå har vi bare brukt funksjoner som er innebygd i
+# R, men nå skal vi installere og laste inn en pakke vi
+# kommer til å bruke mye i seminar. Pakken heter
+# tidyverse. Vi installerer den ved hjelp av funksjonen
+# install.packages(): 
+
+install.packages("tidyverse")
+
+# Når vi installerer pakker må vi alltid sette pakkenavnet
+# i hermetegn.  Etter at vi har installert den så må vi
+# laste den inn med funksjonen library():
+library(tidyverse)
+
+# Vi trenger bare å installere en pakke en gang, men vi må 
+# laste den inn med library() hver gang vi starter en ny
+# R-sesjon.
+
+
+####   Plotting   #### 
+
+# Helt til slutt så skal vi se et eksempel på 
+# hvordan vi kan lage et plot med funksjonen ggplot()
+# Da må vi først installere pakken "ggplot2".  
+
+install.packages("ggplot2")
+library(ggplot2)
+
+ggplot(data = __, aes(x = __)) + 
+  geom_bar() 
+
+
+####   Syntaks feil    #### 
+
+feil1 <- c(1 2, 3, 4)
+
+feil2 <- c1, 2, 3, 4)
+
+feil3 < c(1, 2, 3, 4)
+
+feil4 <- c(1, 2, 3, 4
+           
+           
+####   Mappestruktur   ####
+
+# Sjekker hvilken mappe vi arbeider fra (get working directory).
+getwd()
+
+# Bestemmer hvilken mappe vi skal jobbe fra (setting working directory)
+setwd("C:/Users/carol/Documents/R/STV1020/")
