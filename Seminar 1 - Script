@@ -9,7 +9,7 @@
 ####   Introduksjon til R   ####
 
 # Etter # skriver jeg kommentarer. 
-# Alt som ikke kommer etter en # vil ikke bli ansett som kode
+# Alt som kommer etter en # vil ikke bli ansett som kode
 # Sett musepekeren på likningen under og trykk crl+enter
 # (cmd+return på mac) for å kjøre den.
 
