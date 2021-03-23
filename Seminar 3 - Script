@@ -1,0 +1,225 @@
+########################
+### SEMINAR 3 SCRIPT ###
+########################
+
+# Der det står __ kommer vi til å fylle inn i seminar
+
+####   Bestemme working directory ####
+
+# Først setter vi working directory til den 
+# mappen vi ønsker å hente og lagre filer 
+# til (ikke nødvendig dersom du jobber i 
+# prosjektfilen din):
+
+setwd("C:/Users/carol/Documents/R/STV1020/Seminar 3")
+
+
+####   Laste inn pakker   ####
+
+library(tidyverse)
+
+
+####   Rydding i environment   ####
+
+# Fjerner alle objekter i environment
+rm(list(ls))
+
+# Fjerner flere objekter
+rm(objekt1, objekt2...)
+
+# Fjerner ett objekt 
+rm(objekt1)
+
+
+
+####   Laste inn data    ####
+
+load("gapminder.Rdata")
+
+
+
+# Vi undersøker datasettet litt nærmere
+show(variable.names(gapminder))
+
+head(gapminder)
+
+summary(gapminder)
+
+
+####   Matematisk omkoding   #### 
+
+# Sjekker summary for opprinnelige variabel
+summary(gapminder$year)
+
+# Spennet er 2007-1952, dvs. 55 år
+2007-1952
+
+# Legger til ny variabel i datasettet
+__$__ <- gapminder$year - 1952
+
+# Sjekker summary for ny variabel
+summary(__)
+
+
+# Sjekker at kodingen gikk fint:
+# Lager en tabell med opprinnelig og ny variabel:
+table(gapminder$year, __)
+
+# Lager en tabell med en logisk test:
+table((__ + 1952) == gapminder$year)
+
+
+# Endrer retning på variabelen:
+__$__ <- __$__*(-1) + 55
+
+
+# Sjekker at det ble riktig med table():
+table(__, __)
+
+
+
+####  Omkoding med ifelse  ####
+
+gapminder$lifeExp_2 <- ifelse(test = gapminder$lifeExp > mean(gapminder$lifeExp, na.rm = TRUE),
+                         yes = 1,
+                         no = 0)
+
+# Sjekker at det blir riktig
+table(gapminder$lifeExp_2, 
+      gapminder$lifeExp > mean(gapminder$lifeExp, na.rm = TRUE))
+
+
+
+#### Omkoding med recode ####
+gapminder <- gapminder %>% 
+  mutate(continent2 = recode(continent, 
+                             Africa = 1, 
+                             Americas = 2, 
+                             Asia = 3, 
+                             Europe = 4, 
+                             Oceania = 5))
+
+
+# Sjekker at det blir riktig
+table(gapminder$continent, gapminder$continent2, useNA = "always")
+
+
+#### Intro til ggplot ####
+
+
+## Steg 1: Fortell ggplot() hvor vi vil hente data fra
+ggplot(data = gapminder)
+
+
+## Steg 2: Fortell ggplot hvilken variabel vi vil plotte
+ggplot(data = gapminder, mapping = aes(x = continent))
+
+
+## Steg 3: Fortell ggplot hvilken type plot du vil bruke
+ggplot(data = gapminder, aes(x=continent)) + 
+  geom_bar()
+
+# Bruker summary til å kontrollere plottet
+summary(gapminder$continent)
+
+# Legger til farger
+ggplot(data = gapminder, 
+       aes(x = continent, fill = continent)) + 
+  geom_bar()
+
+
+## Steg 4: Legg til `geom_` etter behov
+
+# Lager en ny variabel med informasjon om antall obs. per kontinent
+gapminder <- gapminder %>% 
+  add_count(continent)
+
+# Legger til geom_hline():
+ggplot(data = gapminder, 
+       aes(x = continent, fill = continent)) + 
+  geom_bar() +
+  geom_hline(aes(yintercept = mean(n)))
+
+
+## Steg 5: Bruk funksjoner til å justere skala, etiketter, tittel o.l..
+ggplot(gapminder, aes(x = continent, fill = continent)) + 
+  geom_bar() +
+  geom_hline(aes(yintercept = mean(n))) +
+  labs(x = "", 
+       y = "Antall land-år-observasjoner", 
+       title = "Antall observasjoner per kontinent",
+       caption = "Gjennomsnittlig antall observasjoner er gitt ved den horisontale linjen") +
+  theme_classic() +
+  theme(legend.position = "none") 
+
+
+#### Uliker typer plot ####
+
+# Først lagrer vi informasjon om data og
+# variabel i et eget objekt
+
+plot_le <- ggplot(gapminder, aes(x = lifeExp))
+
+
+#### Histogram ####
+plot_le +
+  geom_histogram()
+
+plot_le +
+  geom_histogram(aes(fill=continent),
+                 binwidth = 1, 
+                 alpha = 0.5) +
+  theme_bw()
+
+
+#### Boxplot ####
+plot_le + 
+  geom_boxplot(aes(y = continent))
+
+plot_le + 
+  geom_boxplot(aes(y = continent)) +
+  theme_bw() +
+  labs(title = "Boxplot for forventet levealder per kontinent",
+       x = "Forventet levealder",
+       y = "") 
+
+
+#### Density plot ####
+plot_le + 
+  geom_density()
+
+plot_le + 
+  geom_density(size=1, fill="green", alpha=0.3)
+
+plot_le + 
+  geom_density(size=0.5, fill="pink", alpha=1) + 
+  facet_wrap(vars(continent)) +
+  theme_bw()
+
+
+#### Spredningsplot ####
+
+ggplot(gapminder, 
+       aes(x=lifeExp, y=gdpPercap)) + 
+  geom_point()
+
+ggplot(gapminder, 
+       aes(x=lifeExp, y=gdpPercap)) +
+  geom_point() + 
+  geom_smooth()
+
+ggplot(gapminder, 
+       aes(x=lifeExp, y=gdpPercap, col=continent)) +
+  geom_point() + 
+  geom_smooth()
+
+ggplot(gapminder, 
+       aes(x = lifeExp, y = gdpPercap, col = continent)) +
+  geom_point() + 
+  geom_smooth(colour="black") + 
+  facet_wrap(vars(continent)) +
+  labs(x = "Forventet levealder", 
+       y = "GDP per capita", 
+       title = "Et plot med Gapminderdata") +
+  theme_bw() +
+  theme(legend.position = "none")
